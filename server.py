@@ -31,6 +31,7 @@ class MyHandler(http.server.CGIHTTPRequestHandler):
         ctype, pdict = parse_header(self.headers['content-type'])
         pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
         if ctype == 'multipart/form-data':
+            pdict['CONTENT-LENGTH']=self.headers['content-length']
             postvars = parse_multipart(self.rfile, pdict)
         elif ctype == 'application/x-www-form-urlencoded':
             length = int(self.headers['content-length'])
